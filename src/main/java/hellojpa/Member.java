@@ -1,32 +1,32 @@
 package hellojpa;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Date;
+
 
 @Entity
+@SequenceGenerator(name = "MEMBER_SEQ_GENERATOR",
+sequenceName = "MEMBER_SEQ", initialValue = 1, allocationSize = 50)
 public class Member {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "MEMBER_SEQ_GENERATOR")
     private Long id;
-    private String name;
-
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "name", nullable = false, columnDefinition = "varchar(100) default ‘EMPTY'")
+    private String username;
+    private Integer age;
+    @Enumerated(EnumType.STRING) //Enum을 받아온다.
+    private RoleType roleType;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate; //자바 데이터 타입과 DB 데이터 타입이 다르기 떄문
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+    @Lob
+    private String description;
 
     public Member() {
-
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
