@@ -1,21 +1,23 @@
 package hellojpa.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Member {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "MEMBER_ID")
+    @Id @GeneratedValue
     private Long id;
+    @Column(name = "USERNAME")
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+
+  /*  @Column(name = "TEAM_ID")
+    private Long teamId;*/
+    //DB에 맞춰서 모델링
+
+    @ManyToOne //member many Team one
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
 
     public Long getId() {
         return id;
@@ -33,27 +35,11 @@ public class Member {
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
