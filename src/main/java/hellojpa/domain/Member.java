@@ -19,6 +19,8 @@ public class Member {
     private Team team;
 
 
+
+
     public Long getId() {
         return id;
     }
@@ -38,6 +40,14 @@ public class Member {
     public Team getTeam() {
         return team;
     }
+
+    //연관관계 편의 매소드 매번 하려면 실수 할 일 있으니, 메서드화
+/*
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
+*/
 
     public void setTeam(Team team) {
         this.team = team;
