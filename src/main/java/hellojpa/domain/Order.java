@@ -18,8 +18,14 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "ITEM_ID")
-    private List<OrderItem> orderItems = new ArrayList<>(); //없어도 되지면 예제로
+    //Order와 Dilvery 1대 1 관계
+    @OneToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    private Delivery delivery;
+
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
 
