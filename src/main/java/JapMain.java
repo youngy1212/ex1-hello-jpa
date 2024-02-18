@@ -1,7 +1,4 @@
-import hellojpa.domain.Member;
-import hellojpa.domain.Movie;
-import hellojpa.domain.Order;
-import hellojpa.domain.OrderItem;
+import hellojpa.domain.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -21,12 +18,11 @@ public class JapMain {
 
         try {
 
-            Member member = new Member();
-            member.setName("user01");
-            member.setCreateBy("kim");
-            member.setCreateDate(LocalDateTime.now());
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한 ");
 
-            em.persist(member);
+            em.persist(book);
 
             tx.commit();
         }catch (Exception e){

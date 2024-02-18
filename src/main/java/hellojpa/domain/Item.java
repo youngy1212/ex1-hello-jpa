@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn //moive 등등,... 엔티티명이 들어감(들어가는게 좋음)
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn//moive 등등,... 엔티티명이 들어감(들어가는게 좋음)
+public class Item extends BaseEntity{
 
     @Id @GeneratedValue
     private Long itemId;
