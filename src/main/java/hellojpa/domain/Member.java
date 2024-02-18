@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -21,6 +21,7 @@ public class Member {
     //만약 양방향 설정하고싶다면, 추천하지 않음.
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
 
     public Long getId() {
         return id;

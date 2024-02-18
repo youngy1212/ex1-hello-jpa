@@ -1,3 +1,4 @@
+import hellojpa.domain.Member;
 import hellojpa.domain.Movie;
 import hellojpa.domain.Order;
 import hellojpa.domain.OrderItem;
@@ -5,6 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+
+import java.time.LocalDateTime;
 
 public class JapMain {
 
@@ -18,13 +21,12 @@ public class JapMain {
 
         try {
 
-            Movie movie = new Movie();
-            movie.setActor("BBB");
-            movie.setDirector("AAA");
-            movie.setName("바람과함께사라지다");
-            movie.setPrice(100000);
+            Member member = new Member();
+            member.setName("user01");
+            member.setCreateBy("kim");
+            member.setCreateDate(LocalDateTime.now());
 
-            em.persist(movie);
+            em.persist(member);
 
             tx.commit();
         }catch (Exception e){
