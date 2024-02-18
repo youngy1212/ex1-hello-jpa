@@ -1,3 +1,4 @@
+import hellojpa.domain.Movie;
 import hellojpa.domain.Order;
 import hellojpa.domain.OrderItem;
 import jakarta.persistence.EntityManager;
@@ -17,8 +18,13 @@ public class JapMain {
 
         try {
 
-            Order order = new Order();
-            order.addOrderItem(new OrderItem());
+            Movie movie = new Movie();
+            movie.setActor("BBB");
+            movie.setDirector("AAA");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(100000);
+
+            em.persist(movie);
 
             tx.commit();
         }catch (Exception e){
