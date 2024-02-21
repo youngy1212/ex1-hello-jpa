@@ -19,12 +19,13 @@ public class Order extends BaseEntity{
     private Member member;
 
     //Order와 Dilvery 1대 1 관계
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "DELIVERY_ID")
     private Delivery delivery;
+    //Order -> Delivery를 영속성 전이 ALL  Order생성해서 Delivery를 넣을때 오더를 저장하면 자동으로 딜리버리도 저장
 
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
