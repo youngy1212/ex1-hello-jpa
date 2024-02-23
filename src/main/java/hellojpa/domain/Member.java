@@ -2,11 +2,10 @@ package hellojpa.domain;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
-public class Member extends BaseEntity{
+public class Member {
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -14,14 +13,23 @@ public class Member extends BaseEntity{
     @Column(name = "USERNAME")
     private String name;
 
-    private String city;
-    private String Street;
-    private String zipcode;
-
-    //만약 양방향 설정하고싶다면, 추천하지 않음.
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
-
+    //period 기간
+    @Embedded
+    private Period workPeriod;
+    //주소
+    @Embedded
+    private Address homeAddress;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",
+                    column=@Column(name="work_city")),
+            @AttributeOverride(name="street",
+                    column=@Column(name="work_street")),
+            @AttributeOverride(name="zipcode",
+                    column=@Column(name="work_zipcode"))
+            //컬럼 이름은 다르게 매핑
+    })
+    private Address workAddress;
 
     public Long getId() {
         return id;
@@ -39,17 +47,19 @@ public class Member extends BaseEntity{
         this.name = name;
     }
 
-    //연관관계 편의 매소드 매번 하려면 실수 할 일 있으니, 메서드화
-/*
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
+    public Period getWorkPeriod() {
+        return workPeriod;
     }
 
-
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
     }
-  */
 
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
 }
