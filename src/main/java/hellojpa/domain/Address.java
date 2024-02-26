@@ -8,15 +8,25 @@ import java.util.Objects;
 @Embeddable
 public class Address {
 
+    //벨리데이션 룰도 공통으로 사용가능
+    @Column(length = 30)
     String city;
+    @Column(length = 20)
     String street;
-
-    @Column(name = "ZIPCODE")
+    @Column(name = "ZIPCODE",length = 10)
     String zipcode;
 
     public Address() {
         //기본생성자 만들어주어야함.
     }
+
+    //이렇게 사용하면, 이런 비즈니스 메소드드를 만들어줄수도 있음
+    private String fullAddress(){
+        return getCity()+" "+ getStreet()+" "+getZipcode();
+    }
+
+    //ex) 값이 다있는 메소드를 만들거나
+
 
     public Address(String city, String street, String zipcode) {
         this.city = city;

@@ -9,9 +9,8 @@ public class Delivery {
     @Id @GeneratedValue
     private Long id;
 
-    private String city;
-    private String Street;
-    private String zipcode;
+    @Embedded
+    private Address address;
     private DeliveryStatus status;
 
     //멤버와 양방향으로 하고싶어
