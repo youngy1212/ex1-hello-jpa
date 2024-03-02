@@ -17,32 +17,37 @@ public class jpqlMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setAge(10);
-            em.persist(member);
+            for(int i = 0; i<100; i++){
+                Member member = new Member();
+                member.setUsername("user"+i);
+                member.setAge(i);
+                em.persist(member);
 
-            //두번쨰에 타입정보를 줄 수있음 Member.class (기본적으로 엔티티)
-            TypedQuery<Member> query = em.createQuery("select m From Member m where m.username = :username", Member.class);
-            TypedQuery<String> query2 = em.createQuery("select m.username From Member m", String.class);
+            }
 
-            //age와 name.. 뭘로 받아야할지 모를땐 Query로 받아주면 됨(타입정보가 명확하지 않을때)
-            Query query3 = em.createQuery("select m.username m.age From Member m");
+            em.flush();
+            em.clear();
 
-            //바인딩
-            query.setParameter("username","user1");
 
-            //결과 조회 (여러건) : 결과가 없다면 빈 리스트 반환
-            List<Member> resultList = query.getResultList();
+            //영속성 컨테스트가 작동할까?
+            List<Member> result = em.createQuery("select m From Member m", Member.class)
+                    .getResultList();
 
-            //단건 : 결과가 없고, 둘 이상일 경우 Exception 터짐 (결과가 무조건 하나여야함)
-            Member singleResult = query.getSingleResult();
-            //Spring Data Jpa 사용시 없으면 null 반환 -> 스프링이 트라이 캐치 해준거라
+            Member findMember = result.get(0);
+            findMember.setAge(20);//바뀜!(영속성 컨텍스트에 의해 관리되는중)
+            //엔티티 프로젝션
 
-            //보통은 메소드 체인으로 사용 (추천)
-            Member result = em.createQuery("select m From Member m where m.username = :username", Member.class)
-                    .setParameter("username","user1")
-                    .getSingleResult();
+
+            List<MemberDTO> resultList = em.createQuery("select new jqpl.MemberDTO(m.username, m.age) From Member m", MemberDTO.class)
+                    .getResultList();
+            MemberDTO memberDTO = resultList.get(0); //첫번쨰 값 가져오기
+
+
+            //페이징 쿼리
+            List<Member> result2 = em.createQuery("select m from Member m order by m.name desc", Member.class)
+                    .setFirstResult(10)
+                    .setMaxResults(20)
+                    .getResultList();
 
 
             tx.commit();

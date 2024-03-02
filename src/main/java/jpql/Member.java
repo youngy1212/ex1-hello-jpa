@@ -14,6 +14,16 @@ public class Member {
     @JoinColumn(name="TEAM_ID")
     private Team team;
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+//                ", team=" + team + 제외!! 필수 양뱡향 되면 큰일
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
