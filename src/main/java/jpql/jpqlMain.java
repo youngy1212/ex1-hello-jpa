@@ -25,6 +25,7 @@ public class jpqlMain {
             member.setUsername("user1");
             member.setAge(20);
             member.setTeam(team);
+            member.setType(MemberType.ADMIN);
 
             em.persist(member);
 
@@ -32,12 +33,25 @@ public class jpqlMain {
             em.clear();
 
 
-            //페이징 쿼리
-            String query = "select m from Member m inner join m.team t;";
+            //enum의 경우 패키지명까지 해줘야함!!
+            String query = "select m.username,'HELLO',TRUE from Member m"+
+                    "where m.type = :userType";
             List<Member> result = em.createQuery(query, Member.class)
-                    .setFirstResult(10)
-                    .setMaxResults(20)
+                    .setParameter("userType",MemberType.ADMIN)
                     .getResultList();
+
+            //"where m.type = jpql.MemberTyep.ADMIN 으로 작성
+            // 파라미터 매칭해주는 경우는 MemberType.ADMIN.";
+
+            //조건식
+            String query1 =
+                    "select"+
+                        "case when m.age <= 10 then '학생요금'"+
+                        "case when m.age >= 60 then '경로요금'"+
+                        "eles '일반요금'"+
+                        "end"+
+                    "from Member m";
+            em.createQuery(query1,String.class).getResultList();
 
 
             tx.commit();

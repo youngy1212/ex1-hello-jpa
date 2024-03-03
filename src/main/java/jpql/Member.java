@@ -14,6 +14,9 @@ public class Member {
     @JoinColumn(name="TEAM_ID")
     private Team team;
 
+    @Enumerated(EnumType.STRING) //기본이 숫자기떄문에 반드시 문자로!
+    private MemberType type;
+
     public void changeTeam(Team team){ //연관관계 편의 메소드
         this.team = team;
         team.getMembers().add(this);
@@ -27,6 +30,14 @@ public class Member {
                 ", age=" + age +
 //                ", team=" + team + 제외!! 필수 양뱡향 되면 큰일
                 '}';
+    }
+
+    public MemberType getType() {
+        return type;
+    }
+
+    public void setType(MemberType type) {
+        this.type = type;
     }
 
     public Long getId() {
