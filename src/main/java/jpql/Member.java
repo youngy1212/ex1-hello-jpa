@@ -10,9 +10,14 @@ public class Member {
     private String username;
     private int age;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TEAM_ID")
     private Team team;
+
+    public void changeTeam(Team team){ //연관관계 편의 메소드
+        this.team = team;
+        team.getMembers().add(this);
+    }
 
     @Override
     public String toString() {
@@ -46,6 +51,14 @@ public class Member {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
 
